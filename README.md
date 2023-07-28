@@ -29,5 +29,8 @@ We will be looking for
 - Open the project in Visual Studio Community from its .vcxproj file.
 - If prompted to target the latest Microsoft toolset, retarget the Windows SDK Version and platform toolset for the project.
 - Click the left margin to set a breakpoint. Start the debugger by presssing F5 (Debug > Start Debugging) or the Start Debugging button (green triangle) in the Debug Toolbar.
+- Put any assumptions, notes or instructions into your README.md. 
+- When finished, provide us with a link to your repo or a zip of its contents 
+- If choosing to provide written feedback, please put it in a text document in the repo 
 
-We're eager to see you showcase your initiative and skills in your submission. Good luck with your test!
+We're eager to see you showcase your initiative and skills in your submission. Please get in touch if you need any help. Good luck with your test!
