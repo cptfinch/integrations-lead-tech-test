@@ -7,3 +7,5 @@
 /x64/Debug
 /WindowsAPIProject.vcxproj.user
 /WindowsAPIProject.aps
+/packages/spdlog_native.2021.07.30
+*.log
