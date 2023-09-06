@@ -183,6 +183,18 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
     switch (message)
     {
+    // Stop screen moving off screen
+    case WM_WINDOWPOSCHANGING:
+    {
+        WINDOWPOS* pos = (WINDOWPOS*)lParam;
+
+        // Ensure the window stays within the screen bounds
+        if (pos->x < 0) pos->x = 0;
+        if (pos->y < 0) pos->y = 0;
+
+        // Other logic to keep the window on screen...
+        return 0;
+    }
     // enforce minimum window dimensions
     case WM_GETMINMAXINFO:
     {
