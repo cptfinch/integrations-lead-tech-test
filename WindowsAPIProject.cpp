@@ -6,7 +6,7 @@
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 #include <ShlObj.h>
-
+#include <fstream>
 
 #define MAX_LOADSTRING 100
 #define MIN_WINDOW_WIDTH 200;
@@ -20,7 +20,7 @@ WCHAR szWindowClass[ MAX_LOADSTRING ];            // the main window class name
 
 // Forward declarations of functions:
 ATOM                MyRegisterClass( HINSTANCE hInstance );
-BOOL                InitInstance( HINSTANCE, int );
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow, int xPos, int yPos, int width, int height);
 LRESULT CALLBACK    WndProc( HWND, UINT, WPARAM, LPARAM );
 INT_PTR CALLBACK    About( HWND, UINT, WPARAM, LPARAM );
 
@@ -62,8 +62,25 @@ int APIENTRY wWinMain( _In_ HINSTANCE hInstance,
 	LoadStringW( hInstance, IDC_WINDOWSAPIPROJECT, szWindowClass, MAX_LOADSTRING );
 	MyRegisterClass( hInstance );
 
+    // Read or create configuration file config.ini
+    std::ifstream infile("config.ini");
+    int windowWidth = 800;  // You can set default values
+    int windowHeight = 600;
+    int xPos = CW_USEDEFAULT;
+    int yPos = CW_USEDEFAULT;
+
+    if (infile.is_open()) {
+        infile >> windowWidth >> windowHeight >> xPos >> yPos;
+        infile.close();
+    }
+    else {
+        std::ofstream outfile("config.ini");
+        outfile << windowWidth << " " << windowHeight << " " << xPos << " " << yPos;
+        outfile.close();
+    }
+
     // Perform application initialization:
- 	if ( !InitInstance( hInstance, nCmdShow ) )
+ 	if ( !InitInstance(hInstance, nCmdShow, xPos, yPos, windowWidth, windowHeight ) )
     {
         logger->error("Application initialization failed.");
         return FALSE;
@@ -128,14 +145,13 @@ ATOM MyRegisterClass( HINSTANCE hInstance )
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-BOOL InitInstance( HINSTANCE hInstance, int nCmdShow )
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow, int xPos, int yPos, int width, int height )
 {
     hInst = hInstance; // Store instance handle in our global variable
 
-	HWND hWnd = CreateWindowW( szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, hInstance, nullptr );
+    HWND hWnd = CreateWindowW( szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,xPos, yPos, width, height, nullptr, nullptr, hInstance, nullptr);
 
-	if ( !hWnd )
+    if ( !hWnd )
     {
         auto logger = spdlog::get("basic_logger");
         logger->error("Window creation failed.");
@@ -185,8 +201,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
         default:
             return DefWindowProc( hWnd, message, wParam, lParam );
         }
+        break;
     }
-    break;
     case WM_PAINT:
     {
         PAINTSTRUCT ps;
@@ -194,12 +210,19 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
         logger->info("WM_PAINT received.");
         // Some drawing code that uses hdc here...
 		EndPaint( hWnd, &ps );
+        break;
     }
-    break;
     case WM_DESTROY:
-        PostQuitMessage( 0 );
+    {
+        RECT rect;
+        GetWindowRect(hWnd, &rect);
+        std::ofstream outfile("config.ini");
+        outfile << rect.right - rect.left << " " << rect.bottom - rect.top << " " << rect.left << " " << rect.top;
+        outfile.close();
+        PostQuitMessage(0);
         logger->info("WM_DESTROY received, posting quit message.");
         break;
+    }
     default:
 		return DefWindowProc( hWnd, message, wParam, lParam );
 	}
