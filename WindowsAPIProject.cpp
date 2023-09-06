@@ -4,6 +4,7 @@
 #include "framework.h"
 #include "WindowsAPIProject.h"
 #include "spdlog/spdlog.h"
+#include "spdlog/sinks/basic_file_sink.h"
 
 #define MAX_LOADSTRING 100
 #define MIN_WINDOW_WIDTH 200;
@@ -25,6 +26,7 @@ int APIENTRY wWinMain( _In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow )
 {
+
     auto logger = spdlog::basic_logger_mt("basic_logger", "application.log");
     logger->info("Application started.");
 
