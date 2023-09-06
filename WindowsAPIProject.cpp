@@ -183,6 +183,14 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
     switch (message)
     {
+    // enforce minimum window dimensions
+    case WM_GETMINMAXINFO:
+    {
+        MINMAXINFO* lpMMI = (MINMAXINFO*)lParam;
+        lpMMI->ptMinTrackSize.x = 200;  // Minimum width
+        lpMMI->ptMinTrackSize.y = 150;  // Minimum height
+        return 0;
+    }
     case WM_COMMAND:
     {
         int wmId = LOWORD( wParam );
