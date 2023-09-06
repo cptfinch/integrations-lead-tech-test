@@ -15,7 +15,7 @@ add_executable(WindowsAPIProject WindowsAPIProject.cpp )
 set_target_properties(WindowsAPIProject PROPERTIES WIN32_EXECUTABLE TRUE)
 
 # Link libraries
-target_link_libraries(WindowsAPIProject PRIVATE spdlog::spdlog)
+target_link_libraries(WindowsAPIProject PRIVATE spdlog::spdlog Shell32.lib)
 
 # Include directories
 # target_include_directories(WindowsAPIProject PRIVATE ${CMAKE_SOURCE_DIR}/path/to/include)

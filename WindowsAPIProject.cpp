@@ -5,6 +5,8 @@
 #include "WindowsAPIProject.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
+#include <ShlObj.h>
+
 
 #define MAX_LOADSTRING 100
 #define MIN_WINDOW_WIDTH 200;
@@ -14,6 +16,7 @@
 HINSTANCE hInst;                                  // current instance
 WCHAR szTitle[ MAX_LOADSTRING ];                  // The title bar text
 WCHAR szWindowClass[ MAX_LOADSTRING ];            // the main window class name
+
 
 // Forward declarations of functions:
 ATOM                MyRegisterClass( HINSTANCE hInstance );
@@ -26,9 +29,30 @@ int APIENTRY wWinMain( _In_ HINSTANCE hInstance,
     _In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow )
 {
+    std::shared_ptr<spdlog::logger> logger;
+    PWSTR ppszPath;
+    if (SUCCEEDED(SHGetKnownFolderPath(FOLDERID_LocalAppData, 0, NULL, &ppszPath))) {
 
-    auto logger = spdlog::basic_logger_mt("basic_logger", "application.log");
-    logger->info("Application started.");
+        std::wstring wpath(ppszPath);
+        CoTaskMemFree(ppszPath);  // Free the memory for the path
+        wpath += L"\\WindowsAPIProject\\logs\\application.log";
+
+        // Create directories if they don't exist
+        CreateDirectoryW((wpath.substr(0, wpath.find_last_of(L'\\'))).c_str(), NULL);
+
+        // Convert wide string to standard string
+        std::string path(wpath.begin(), wpath.end());
+
+        logger = spdlog::basic_logger_mt("basic_logger", path);
+        logger->info("Logging setup complete.");
+        
+    }
+    else {
+        // Handle error by using a default logging path in the same directory as the executable
+        logger = spdlog::basic_logger_mt("basic_logger", "application.log");
+        logger->warn("Using default logging path due to error in retrieving AppData path.");
+
+    }
 
     UNREFERENCED_PARAMETER(hPrevInstance);
     UNREFERENCED_PARAMETER(lpCmdLine);
