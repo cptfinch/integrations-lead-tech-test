@@ -188,11 +188,26 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
     {
         WINDOWPOS* pos = (WINDOWPOS*)lParam;
 
+        // Get the screen dimensions
+        int screenWidth = GetSystemMetrics(SM_CXSCREEN);
+        int screenHeight = GetSystemMetrics(SM_CYSCREEN);
+
         // Ensure the window stays within the screen bounds
         if (pos->x < 0) pos->x = 0;
         if (pos->y < 0) pos->y = 0;
 
-        // Other logic to keep the window on screen...
+        // Get the window dimensions
+        RECT rect;
+        GetWindowRect(hWnd, &rect);
+        int windowWidth = rect.right - rect.left;
+        int windowHeight = rect.bottom - rect.top;
+
+        // Ensure the window doesn't go off the right edge of the screen
+        if (pos->x + windowWidth > screenWidth) pos->x = screenWidth - windowWidth;
+
+        // Ensure the window doesn't go off the bottom edge of the screen
+        if (pos->y + windowHeight > screenHeight) pos->y = screenHeight - windowHeight;
+
         return 0;
     }
     // enforce minimum window dimensions
