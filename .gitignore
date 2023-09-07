@@ -22,3 +22,4 @@ build/
 
 # Optionally, ignore CMakeSettings.json if not needed
 # CMakeSettings.json
+/config.ini
