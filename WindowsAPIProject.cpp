@@ -151,12 +151,21 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow, int xPos, int yPos, int wid
 
     HWND hWnd = CreateWindowW( szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,xPos, yPos, width, height, nullptr, nullptr, hInstance, nullptr);
 
-    if ( !hWnd )
+    if (!hWnd)
     {
+        DWORD dwError = GetLastError();
         auto logger = spdlog::get("basic_logger");
-        logger->error("Window creation failed.");
+        logger->error("Window creation failed. Error code: {}", dwError);
         return FALSE;
     }
+
+
+//    if ( !hWnd )
+//    {
+//        auto logger = spdlog::get("basic_logger");
+//        logger->error("Window creation failed.");
+//        return FALSE;
+//    }
 
     auto logger = spdlog::get("basic_logger");
     logger->info("Window created successfully.");
