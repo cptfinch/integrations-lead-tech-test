@@ -1,12 +1,24 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Ignore Visual Studio temporary files, build results, and .user files
+.vs/
+Debug/
+x64/
+out/
+*.vcxproj.user
+*.aps
 
-/.vs
-/Debug
-/x64/Debug
-/WindowsAPIProject.vcxproj.user
-/WindowsAPIProject.aps
-/packages/spdlog_native.2021.07.30
+# Ignore Visual Studio solution and project files
+*.sln
+*.vcxproj
+*.vcxproj.filters
+
+# Ignore CMake build folder
+build/
+
+# Ignore log files
 *.log
-/out/build/x64-Debug
+
+# Ignore packages
+/packages/
+
+# Optionally, ignore CMakeSettings.json if not needed
+# CMakeSettings.json
