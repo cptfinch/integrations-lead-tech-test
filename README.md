@@ -1,3 +1,47 @@
+# WindowsAPIProject (Instructions from Chris Finch)
+
+## Pre-requisites
+
+## Pre-requisites
+
+- Visual Studio 2019 or later (CMake is bundled with Visual Studio)
+- [vcpkg](https://github.com/microsoft/vcpkg) for package management
+
+## Setup and Build
+
+### Installing spdlog using vcpkg
+
+To install `spdlog`, you can use [vcpkg](https://github.com/microsoft/vcpkg), a C++ package manager. If you haven't installed vcpkg, follow the [official installation instructions](https://github.com/microsoft/vcpkg#quick-start).
+
+Once vcpkg is installed:
+
+1. Open a terminal and navigate to your `vcpkg` installation directory.
+2. Run the following command to install `spdlog`:
+
+    ```bash
+    ./vcpkg install spdlog
+    ```
+
+3. To integrate vcpkg with your Visual Studio environment, run:
+
+    ```bash
+    ./vcpkg integrate install
+    ```
+
+This will enable Visual Studio to automatically detect libraries installed via vcpkg, making it easier to manage your project dependencies.
+
+### Building the Project with CMake and Visual Studio
+
+1. Clone this repository to your local machine.
+2. Open Visual Studio and go to `File > Open > CMake...` and select the `CMakeLists.txt` file in your cloned repository.
+3. Select your build configuration (usually `Debug` or `Release`).
+4. Build the project by going to `Build > Build All`.
+5. To run the project, go to `Debug > Start Debugging`.
+
+
+------
+
+
 # Introduction
 This repository contains a skeleton C++ project for an application with a GUI that runs on Windows. The application was written by one of the engineers at Mirada who would like support in taking the application further.
 
