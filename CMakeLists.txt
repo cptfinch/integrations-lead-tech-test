@@ -29,3 +29,4 @@ target_link_libraries(WindowsAPIProject PRIVATE spdlog::spdlog Shell32.lib)
 # else()
 #     target_compile_options(WindowsAPIProject PRIVATE -Wall -Wextra -Werror)
 # endif()
+
