@@ -2,8 +2,6 @@
 
 ## Pre-requisites
 
-## Pre-requisites
-
 - Visual Studio 2019 or later (CMake is bundled with Visual Studio)
 - [vcpkg](https://github.com/microsoft/vcpkg) for package management
 
